@@ -1,3 +1,4 @@
+import { act } from "@testing-library/react";
 import {
   LOAD_PRODUCTS,
   SET_LISTVIEW,
@@ -7,11 +8,20 @@ import {
   UPDATE_FILTERS,
   FILTER_PRODUCTS,
   CLEAR_FILTERS,
-} from '../actions'
+} from "../actions";
 
 const filter_reducer = (state, action) => {
-  return state
-  throw new Error(`No Matching "${action.type}" - action type`)
-}
+  switch (action.type) {
+    case LOAD_PRODUCTS:
+      return {
+        ...state,
+        filteredProducts: [...action.payload],
+        allProducts: [...action.payload],
+      };
 
-export default filter_reducer
+    default:
+      throw new Error(`No Matching "${action.type}" - action type`);
+  }
+};
+
+export default filter_reducer;

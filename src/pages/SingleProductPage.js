@@ -13,6 +13,7 @@ import {
 } from "../components";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import CartItem from "../components/CartItem";
 
 const SingleProductPage = () => {
   const { id } = useParams();
@@ -40,7 +41,6 @@ const SingleProductPage = () => {
   if (error) {
     return <Error />;
   }
-  console.log(product);
 
   const {
     name,
@@ -81,6 +81,8 @@ const SingleProductPage = () => {
               <span>Brand:</span>
               {company}
             </p>
+            <hr />
+            {stock > 0 && <AddToCart {...product} />}
           </section>
         </div>
       </div>
