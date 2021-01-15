@@ -15,6 +15,13 @@ import {
 
 const initialState = {
   isSidebarOpen: false,
+  productsLoading: false,
+  productsError: false,
+  products: [],
+  featuredProducts: [],
+  singleProductsLoading: false,
+  singleProductsError: false,
+  singleProducts: {},
 };
 
 const ProductsContext = React.createContext();
@@ -29,8 +36,35 @@ export const ProductsProvider = ({ children }) => {
     dispatch({ type: SIDEBAR_CLOSE });
   };
 
+  const fetchProducts = async (url) => {
+    dispatch({ type: GET_PRODUCTS_BEGIN });
+    try {
+      const res = await axios(`${url}`);
+      dispatch({ type: GET_PRODUCTS_SUCCESS, payload: res.data });
+    } catch (error) {
+      dispatch({ type: GET_PRODUCTS_ERROR });
+    }
+  };
+
+  const fetchSingleProducts = async (url) => {
+    dispatch({ type: GET_SINGLE_PRODUCT_BEGIN });
+    try {
+      const res = await axios(`${url}`);
+      dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: res.data });
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: GET_SINGLE_PRODUCT_ERROR });
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(url);
+  }, []);
+
   return (
-    <ProductsContext.Provider value={{ ...state, openSidebar, closeSidebar }}>
+    <ProductsContext.Provider
+      value={{ ...state, openSidebar, closeSidebar, fetchSingleProducts }}
+    >
       {children}
     </ProductsContext.Provider>
   );
