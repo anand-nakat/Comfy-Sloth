@@ -1,4 +1,3 @@
-import { act } from "@testing-library/react";
 import {
   LOAD_PRODUCTS,
   SET_LISTVIEW,
@@ -13,10 +12,14 @@ import {
 const filter_reducer = (state, action) => {
   switch (action.type) {
     case LOAD_PRODUCTS:
+      let maxPrice = action.payload.map((item) => item.price);
+      maxPrice = Math.max(...maxPrice);
+
       return {
         ...state,
         filteredProducts: [...action.payload],
         allProducts: [...action.payload],
+        filter: { ...state.filter, maxPrice, price: maxPrice },
       };
 
     case SET_GRIDVIEW:
@@ -46,11 +49,79 @@ const filter_reducer = (state, action) => {
           b.name.localeCompare(a.name)
         );
       }
-
       return { ...state, filteredProducts: tempProducts };
 
+    case FILTER_PRODUCTS:
+      const {
+        allProducts,
+        filter: {
+          text,
+          category,
+          company,
+          color,
+          price,
+          minPrice,
+
+          shipping,
+        },
+      } = state;
+      let tempFilteredProducts = [...allProducts];
+      if (text) {
+        tempFilteredProducts = tempFilteredProducts.filter((product) =>
+          product.name.toLowerCase().startsWith(text)
+        );
+      }
+
+      if (category !== "all") {
+        tempFilteredProducts = tempFilteredProducts.filter(
+          (product) => product.category === category
+        );
+      }
+      if (company !== "all") {
+        tempFilteredProducts = tempFilteredProducts.filter(
+          (product) => product.company === company
+        );
+      }
+
+      if (price > 0) {
+        tempFilteredProducts = tempFilteredProducts.filter(
+          (product) => product.price <= price
+        );
+      }
+      if (color !== "all") {
+        tempFilteredProducts = tempFilteredProducts.filter((product) =>
+          product.colors.find((c) => c === color)
+        );
+      }
+
+      if (shipping) {
+        tempFilteredProducts = tempFilteredProducts.filter(
+          (product) => product.shipping === true
+        );
+      }
+
+      return { ...state, filteredProducts: tempFilteredProducts };
+
+    case UPDATE_FILTERS:
+      const { name, value } = action.payload;
+      return { ...state, filter: { ...state.filter, [name]: value } };
     default:
       throw new Error(`No Matching "${action.type}" - action type`);
+
+    case CLEAR_FILTERS:
+      return {
+        ...state,
+        filter: {
+          text: "",
+          category: "all",
+          company: "all",
+          color: "all",
+          minPrice: 0,
+          maxPrice: state.filter.maxPrice,
+          price: state.filter.maxPrice,
+          shipping: false,
+        },
+      };
   }
 };
 
