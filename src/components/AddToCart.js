@@ -6,7 +6,7 @@ import { useCartContext } from "../context/cart_context";
 import AmountButtons from "./AmountButtons";
 
 const AddToCart = ({ product }) => {
-  const { colors, stock, id } = product;
+  const { colors, stock, id, price } = product;
   const { cart, addToCart } = useCartContext();
 
   const [mainColor, setMainColor] = useState(colors[0]);
@@ -59,7 +59,9 @@ const AddToCart = ({ product }) => {
         <Link
           to="/cart"
           className="btn"
-          onClick={() => addToCart(id, mainColor, amount, product, stock)}
+          onClick={() =>
+            addToCart(id, mainColor, amount, product, stock, price)
+          }
         >
           Add to Cart
         </Link>

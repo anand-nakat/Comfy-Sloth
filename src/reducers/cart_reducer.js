@@ -9,7 +9,7 @@ import {
 const cart_reducer = (state, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      const { id, color, amount, product, stock } = action.payload;
+      const { id, color, amount, product, stock, price } = action.payload;
       console.log(stock);
       let tempItem = state.cart.find((item) => item.id === id + color);
 
@@ -31,6 +31,7 @@ const cart_reducer = (state, action) => {
           id: id + color,
           name: product.name,
           color,
+          price,
           amount,
           image: product.images[0].url,
           maxAmount: stock,

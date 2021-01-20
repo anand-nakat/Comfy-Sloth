@@ -15,7 +15,7 @@ if (localStorage.getItem("cart")) {
 const initialState = {
   cart: localStorageCart,
   shippingFee: 534,
-  totalAmount: 0,
+  totalAmount: 100,
   totalItems: 0,
 };
 
@@ -30,11 +30,11 @@ export const CartProvider = ({ children }) => {
     }
   }, [state.cart]);
 
-  const addToCart = (id, color, amount, product, stock) => {
+  const addToCart = (id, color, amount, product, stock, price) => {
     console.log(product);
     dispatch({
       type: ADD_TO_CART,
-      payload: { id, color, amount, product, stock },
+      payload: { id, color, amount, product, stock, price },
     });
   };
   const clearCart = () => {};

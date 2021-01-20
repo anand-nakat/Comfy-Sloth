@@ -4,8 +4,30 @@ import { formatPrice } from "../utils/helpers";
 import AmountButtons from "./AmountButtons";
 import { FaTrash } from "react-icons/fa";
 import { useCartContext } from "../context/cart_context";
-const CartItem = () => {
-  return <Wrapper>Cart item</Wrapper>;
+const CartItem = ({ amount, name, color, image, price, id }) => {
+  return (
+    <Wrapper>
+      <div className="title">
+        <img src={image} alt={name} />
+        <div>
+          <h5 className="name">{name}</h5>
+          <p className="color">
+            Color : <span style={{ backgroundColor: color }}></span>
+          </p>
+          <h5 className="price-small">{formatPrice(price || 100)}</h5>
+        </div>
+      </div>
+      <h5 className="price">{formatPrice(price || 100)}</h5>
+      {/* <AmountButtons
+        amount={amount}
+        decreaseAmount={decreaseAmount}
+        increaseAmount={increaseAmount}
+      /> */}
+      <button className="remove-btn">
+        <FaTrash />
+      </button>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.article`
