@@ -15,7 +15,7 @@ if (localStorage.getItem("cart")) {
 const initialState = {
   cart: localStorageCart,
   shippingFee: 534,
-  totalAmount: 100,
+  totalAmount: 1000,
   totalItems: 0,
 };
 
@@ -25,9 +25,8 @@ export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    if (state.cart.length > 1) {
-      localStorage.setItem("cart", JSON.stringify(state.cart));
-    }
+    dispatch({ type: COUNT_CART_TOTALS });
+    localStorage.setItem("cart", JSON.stringify(state.cart));
   }, [state.cart]);
 
   const addToCart = (id, color, amount, product, stock, price) => {
@@ -37,12 +36,26 @@ export const CartProvider = ({ children }) => {
       payload: { id, color, amount, product, stock, price },
     });
   };
-  const clearCart = () => {};
-  const removeCartItem = (id) => {};
+  const toggleCartAmount = (id, value) => {
+    dispatch({ type: TOGGLE_CART_ITEM_AMOUNT, payload: { id, value } });
+  };
+  const removeCartItem = (id) => {
+    dispatch({ type: REMOVE_CART_ITEM, payload: id });
+  };
 
+  const clearCart = () => {
+    dispatch({ type: CLEAR_CART });
+  };
   return (
     <CartContext.Provider
-      value={{ ...state, addToCart, clearCart, removeCartItem }}
+      value={{
+        ...state,
+        addToCart,
+        clearCart,
+        removeCartItem,
+        toggleCartAmount,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>
