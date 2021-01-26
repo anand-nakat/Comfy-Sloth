@@ -1,6 +1,6 @@
 import React from "react";
 import { FeaturedProducts, Hero, Services, Contact } from "../components";
-import { services } from "../utils/constants";
+
 const HomePage = () => {
   return (
     <main>

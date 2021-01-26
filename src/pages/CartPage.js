@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { CartContent, PageHero } from "../components";
 
 const CartPage = () => {
-  const { cart, totalAmount, totalItems } = useCartContext();
+  const { cart } = useCartContext();
   if (cart.length < 1) {
     return (
       <Wrapper className="page-100">

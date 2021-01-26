@@ -13,7 +13,6 @@ import {
 } from "../components";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import CartItem from "../components/CartItem";
 
 const SingleProductPage = () => {
   const { id } = useParams();
@@ -26,6 +25,7 @@ const SingleProductPage = () => {
   } = useProductsContext();
   useEffect(() => {
     fetchSingleProducts(`${url}${id}`);
+    // eslint-disable-next-line
   }, [id]);
 
   useEffect(() => {
@@ -34,7 +34,9 @@ const SingleProductPage = () => {
         history.push("/");
       }, 3000);
     }
+    // eslint-disable-next-line
   }, [error]);
+
   if (loading) {
     return <Loading />;
   }
@@ -44,14 +46,12 @@ const SingleProductPage = () => {
 
   const {
     name,
-    colors,
     description,
     company,
     id: sku,
     images,
     price,
     reviews,
-    shipping,
     stars,
     stock,
   } = product;

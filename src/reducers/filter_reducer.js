@@ -54,16 +54,7 @@ const filter_reducer = (state, action) => {
     case FILTER_PRODUCTS:
       const {
         allProducts,
-        filter: {
-          text,
-          category,
-          company,
-          color,
-          price,
-          minPrice,
-
-          shipping,
-        },
+        filter: { text, category, company, color, price, shipping },
       } = state;
       let tempFilteredProducts = [...allProducts];
       if (text) {
