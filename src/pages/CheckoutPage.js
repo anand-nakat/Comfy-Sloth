@@ -20,9 +20,7 @@ const CheckoutPage = () => {
             </Link>
           </div>
         ) : (
-          <Wrapper className="page">
-            <h1>Checkout Here</h1>
-          </Wrapper>
+          <StripeCheckout />
         )}
       </Wrapper>
     </main>
